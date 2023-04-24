@@ -7,6 +7,8 @@ import com.myblog.blogapp.service.PostService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalLong;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,9 +26,6 @@ public class PostServiceImpl implements PostService {
         Post post = mapToEntity(postDto);
         Post postEntity = postRepo.save(post);
         PostDto dto = mapToDto(postEntity);
-
-
-
         return dto;
     }
 
@@ -54,6 +53,13 @@ public class PostServiceImpl implements PostService {
       List<Post> posts =  postRepo.findAll();
        return posts.stream().map(this::mapToDto).collect(Collectors.toList());
 
+    }
+
+    @Override
+    public PostDto getPostById(long id) {
+       Optional<Post> byId = postRepo.findById(id);
+       Post post =byId.get();
+        return mapToDto(post);
     }
 
 }
